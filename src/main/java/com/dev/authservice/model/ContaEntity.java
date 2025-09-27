@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "Contas")
+@Entity(name = "contas")
 @Table(name = "contas")
 @Data
 @AllArgsConstructor
