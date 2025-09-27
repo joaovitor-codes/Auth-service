@@ -1,11 +1,12 @@
 package com.dev.authservice.controller;
 
+import com.dev.authservice.config.security.TokenService;
 import com.dev.authservice.dto.AuthenticationDto;
+import com.dev.authservice.dto.LoginResponse;
 import com.dev.authservice.dto.RegisterDto;
 import com.dev.authservice.model.ContaEntity;
 import com.dev.authservice.repository.ContaRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final ContaRepository contaRepository;
+    private final TokenService tokenService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, ContaRepository contaRepository) {
+    public AuthenticationController(AuthenticationManager authenticationManager, ContaRepository contaRepository, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.contaRepository = contaRepository;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -31,7 +34,9 @@ public class AuthenticationController {
         var usarNamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usarNamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((ContaEntity) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
