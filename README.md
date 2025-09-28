@@ -79,9 +79,3 @@ POST	/contas/cadastro	Registra uma nova conta no sistema.	Público (permitAll)
 POST	/auth/login	Endpoint futuro para emitir JWT.	Público
 GET	/contas/admin	Endpoint de teste para administradores.	ROLE_ADMIN
 GET	/contas/{id}	Busca de conta por ID.	Autenticado
-
-Exportar para as Planilhas
-👤 Autor
-[Seu Nome Completo]
-
-[Seu Perfil do LinkedIn/GitHub]
